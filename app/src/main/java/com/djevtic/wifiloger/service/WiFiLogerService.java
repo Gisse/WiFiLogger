@@ -56,11 +56,14 @@ public class WiFiLogerService extends IntentService {
         mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 registerReceiver(mWifiScanReceiver,
                         new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-                mWifiManager.startScan();
+        if(!(mWifiManager.getWifiState() == mWifiManager.WIFI_STATE_ENABLED || mWifiManager.getWifiState() == mWifiManager.WIFI_STATE_ENABLING)){
+            mWifiManager.setWifiEnabled(true);
+        }
+        mWifiManager.startScan();
         registerReceiver(mLifeCycleProcess, new IntentFilter(StaticValues.SERVICE_LIFECYCLE));
 
         while(scanning){
-            Log.d("djevtic", "Service work");
+            //Log.d("djevtic", "Service work");
         }
     }
 
@@ -70,7 +73,9 @@ public class WiFiLogerService extends IntentService {
             if (intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                 List<ScanResult> mScanResults = mWifiManager.getScanResults();
                 // add your logic here
-                Log.d("djevtic", "We found something");
+                for (ScanResult scanResult: mScanResults) {
+                    Log.d("djevtic", "scanResult.SSID: "+scanResult.SSID+" capabilities:"+scanResult.capabilities+ "BSSID:"+scanResult.BSSID );
+                }
             }
         }
     };

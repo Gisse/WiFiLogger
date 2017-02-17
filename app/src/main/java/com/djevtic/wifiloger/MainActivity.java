@@ -58,14 +58,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void startingService() {
         if (checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)
-                != PackageManager.PERMISSION_GRANTED &&
+                != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-                        != PackageManager.PERMISSION_GRANTED &&
+                        != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.CHANGE_NETWORK_STATE)
+                        != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE,
                     Manifest.permission.ACCESS_WIFI_STATE,
-                    Manifest.permission.CHANGE_NETWORK_STATE},
+                    Manifest.permission.CHANGE_NETWORK_STATE,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION},
                     StaticValues.PERMISION_REQUEST);
             return;
         }
